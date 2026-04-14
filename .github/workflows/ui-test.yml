@@ -41,11 +41,10 @@ jobs:
 
       - name: 安装 Allure
         run: |
-          export PATH="/opt/homebrew/bin:$PATH"
-          if ! command -v allure &> /dev/null
-          then
-            brew install allure
-          fi
+          curl -L -o allure.tgz https://github.com/allure-framework/allure2/releases/latest/download/allure-2.29.0.tgz
+          tar -zxvf allure.tgz
+          mv allure-2.29.0 allure
+          echo "$PWD/allure/bin" >> $GITHUB_PATH
 
       - name: 生成 Allure 报告
         run: |
