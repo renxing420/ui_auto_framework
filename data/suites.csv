@@ -1,0 +1,2 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Tue Apr 14 17:19:48 CST 2026","Tue Apr 14 17:23:48 CST 2026","239334","tests","test_create_robot","","","","test_create_robot",""
