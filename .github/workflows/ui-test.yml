@@ -1,0 +1,58 @@
+name: UI Automation Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 安装 Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      # ⭐ 关键：安装依赖
+      - name: 安装依赖
+        run: |
+          pip install -r requirements.txt
+
+      # ⭐ 关键：无头模式 + 提高稳定性
+      - name: 运行测试
+        env:
+          HEADLESS: true
+        run: |
+          pytest --alluredir=reports/allure-results
+
+      # ⭐ 生成 Allure 报告
+      - name: 安装 Allure
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+
+      - name: 生成 Allure 报告
+        run: |
+          allure generate reports/allure-results -o reports/allure-report
+
+      # ⭐ 上传报告（重点）
+      - name: 上传 Allure 报告
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+
+      # ⭐ 上传截图（你刚做的）
+      - name: 上传截图
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: reports/screenshots

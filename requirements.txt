@@ -1,0 +1,6 @@
+contextvars
+selenium
+pytest
+allure-pytest
+pyyaml
+pytest-rerunfailures
