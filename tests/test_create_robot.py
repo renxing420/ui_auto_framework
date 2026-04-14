@@ -15,20 +15,24 @@ def test_create_robot(driver, config):
     robot_page = RobotPage(driver)
 
     login_page.open(config["base_url"] + "/login")
+    print("开始登录")
     login_page.login("99999999999", "999999")
     time.sleep(2)
 
     robot_page.go_to_manager_center()
+    print("进入管理中心")
     time.sleep(1)
 
     robot_page.go_to_robot_page()
     robot_page.click_create()
     name = f"newRobot{int(time.time())}"
     robot_page.create_robot(name)
+    print("创建机器人:", name)
     time.sleep(1)
 
     robot_page.refresh_list()
     assert robot_page.is_robot_exist(name)
 
     robot_page.delete_robot(name)
+    print("删除机器人:", name)
     driver.quit()

@@ -1,5 +1,5 @@
 base_url: "https://skb-tpjk.langboat-dev.cc"
 browser: "chrome"
 timeout: 20
-#headless: true
-headless: false
+headless: true
+#headless: false
