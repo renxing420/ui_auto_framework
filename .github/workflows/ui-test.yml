@@ -2,10 +2,9 @@ name: UI Automation Test
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-##git push 不再触发
-#  workflow_dispatch:
+    branches: [ "*" ]
+  workflow_dispatch: #git push 不再触发
+
 jobs:
   test:
 #    runs-on: ubuntu-latest
@@ -15,35 +14,35 @@ jobs:
       - name: 拉代码
         uses: actions/checkout@v4
 
-      # - name: 安装 Python
-      #   uses: actions/setup-python@v5
-      #   with:
-      #     python-version: '3.10'
-      
-      # 使用本地python
+#      - name: 安装 Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: '3.10'
+
+     # 使用本地python
       - name: Use system Python
         run: python3 --version
-        
-      - name: 安装 Chrome
-        uses: browser-actions/setup-chrome@v1
+
+      # 本地不需要安装
+#      - name: 安装 Chrome
+#        uses: browser-actions/setup-chrome@v1
 
       # ⭐ 关键：安装依赖
-      - name: 安装依赖
+      - name: 创建虚拟环境并安装依赖
         run: |
+          python3 -m venv venv
+          source venv/bin/activate
           pip install -r requirements.txt
 
-      # ⭐ 关键：无头模式 + 提高稳定性
       - name: 运行测试
-        env:
-          HEADLESS: true
         run: |
+          source venv/bin/activate
           pytest --alluredir=reports/allure-results
 
       # ⭐ 生成 Allure 报告
       - name: 安装 Allure
         run: |
-          sudo apt-get update
-          sudo apt-get install -y allure
+          brew install allure
 
       - name: 生成 Allure 报告
         run: |
@@ -56,7 +55,7 @@ jobs:
           name: allure-report
           path: reports/allure-report
 
-      # ⭐ 上传截图（你刚做的）
+      # ⭐ 上传截图
       - name: 上传截图
         uses: actions/upload-artifact@v4
         with:
