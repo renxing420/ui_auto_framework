@@ -4,10 +4,12 @@ on:
   push:
     branches: [ main ]
   pull_request:
-
+##git push 不再触发
+#  workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu-latest
+#    runs-on: ubuntu-latest
+    runs-on: self-hosted #本地runner
 
     steps:
       - name: 拉代码
