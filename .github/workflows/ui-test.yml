@@ -41,7 +41,7 @@ jobs:
 
       - name: 安装 Allure
         run: |
-          curl -L -o allure.tgz https://github.com/allure-framework/allure2/releases/latest/download/allure-2.29.0.tgz
+          curl -L -o allure.tgz https://ghproxy.net/https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.tgz
           tar -zxvf allure.tgz
           mv allure-2.29.0 allure
           echo "$PWD/allure/bin" >> $GITHUB_PATH
