@@ -15,11 +15,15 @@ jobs:
       - name: 拉代码
         uses: actions/checkout@v4
 
-      - name: 安装 Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
+      # - name: 安装 Python
+      #   uses: actions/setup-python@v5
+      #   with:
+      #     python-version: '3.10'
+      
+      # 使用本地python
+      - name: Use system Python
+        run: python3 --version
+        
       - name: 安装 Chrome
         uses: browser-actions/setup-chrome@v1
 
@@ -43,7 +47,7 @@ jobs:
 
       - name: 生成 Allure 报告
         run: |
-          allure generate reports/allure-results -o reports/allure-report
+          allure generate reports/allure-results -o reports/allure-report --clean
 
       # ⭐ 上传报告（重点）
       - name: 上传 Allure 报告
