@@ -42,11 +42,20 @@ jobs:
       # ⭐ 生成 Allure 报告
       - name: 安装 Allure
         run: |
-          brew install allure
+          wget https://github.com/allure-framework/allure2/releases/latest/download/allure-2.29.0.tgz
+          tar -zxvf allure-2.29.0.tgz
+          mv allure-2.29.0 allure
+          echo "$PWD/allure/bin" >> $GITHUB_PATH
 
       - name: 生成 Allure 报告
         run: |
           allure generate reports/allure-results -o reports/allure-report --clean
+
+      - name: 部署 Allure 报告
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: reports/allure-report
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       # ⭐ 上传报告（重点）
       - name: 上传 Allure 报告
